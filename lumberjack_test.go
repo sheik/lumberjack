@@ -1,6 +1,7 @@
 package lumberjack
 
 import (
+	"fmt"
 	"os"
 	"reflect"
 	"testing"
@@ -66,4 +67,42 @@ func TestLumberjackScannerMultipleTags(t *testing.T) {
 	if !reflect.DeepEqual(output, lines{"my first log", "my second log", "my third log"}) {
 		t.Error("Unexpected output:", output)
 	}
+}
+
+func ExampleNewLumberjackScanner() {
+	file, err := os.Open("test.log")
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	scanner := NewLumberjackScanner(file, "tag1", "tag2")
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
+	}
+}
+
+func ExampleNewLogger_stdout() {
+	logger := NewLogger(os.Stdout)
+
+	logger.Log("Simple log message, with no tags")
+	logger.Log("Another message, this time with tags", "tag1", "tag2")
+	logger.Log("Another message, this time with only one tag", "tag1")
+}
+
+func ExampleNewLogger_file() {
+	filename := "output.log"
+	logfile, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0755)
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer logfile.Close()
+
+	logger := NewLogger(logfile)
+
+	logger.Log("Simple test message")
+	logger.Log("Another message, this time with tags", "tag1", "tag2")
+	logger.Log("Another message, this time with only one tag", "tag1")
 }
