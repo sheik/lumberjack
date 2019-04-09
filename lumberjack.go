@@ -42,7 +42,7 @@ type LumberjackScanner struct {
 
 // NewLumberjackScanner returns a new scanner that will
 // search for "tags"
-func NewLumberjackScanner(r io.Reader, tags Tags) LumberjackScanner {
+func NewLumberjackScanner(r io.Reader, tags... string) LumberjackScanner {
 	s := LumberjackScanner{bufio.NewScanner(r), "", make(map[string]bool)}
 	for _, tag := range tags {
 		s.tagMap[tag] = true

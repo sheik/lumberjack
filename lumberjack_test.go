@@ -26,7 +26,7 @@ func TestLumberjackScanner(t *testing.T) {
 	}
 
 	var output lines
-	scanner := NewLumberjackScanner(r, Tags{"first"})
+	scanner := NewLumberjackScanner(r, "first")
 	for scanner.Scan() {
 		output = append(output, scanner.Text())
 	}
@@ -41,7 +41,7 @@ func TestLumberjackScanner(t *testing.T) {
 	}
 
 	output = lines{}
-	scanner = NewLumberjackScanner(r2, Tags{"network"})
+	scanner = NewLumberjackScanner(r2, "network")
 	for scanner.Scan() {
 		output = append(output, scanner.Text())
 	}
@@ -59,7 +59,7 @@ func TestLumberjackScannerMultipleTags(t *testing.T) {
 	}
 
 	var output lines
-	scanner := NewLumberjackScanner(r, Tags{"first", "second"})
+	scanner := NewLumberjackScanner(r, "first", "second")
 	for scanner.Scan() {
 		output = append(output, scanner.Text())
 	}
