@@ -22,15 +22,18 @@ Example Code:
     )
 
     func main() {
+        // Create our log file for output
         logfile, err := os.OpenFile("output.log", os.O_RDWR|os.O_CREATE, 0755)
         if err != nil {
             panic(err)
         }
         defer logfile.Close()
 
+        // print to stdout and also to a log file
         logger := lumberjack.NewLogger(os.Stdout, logfile)
 
-        logger.Log("The network is down", lumberjack.Tags{"network", "debug"})
+        // Make a log message with two tags: network, debug
+        logger.Log("The network is down", "network", "debug")
     }
 
 Example:

@@ -16,5 +16,5 @@ func main() {
 
 	logger := lumberjack.NewLogger(os.Stdout, logfile)
 
-	logger.Log("The network is down", lumberjack.Tags{"network", "debug"})
+	logger.Log("The network is down", "network", "debug")
 }
