@@ -4,7 +4,11 @@ Lumberjack is a tag logging library. It allows simple logging configuation which
 for logging of messages with tags. It then provides an interface for reading through a log
 based on tags.
 
-To install and get tcat:
+To get tcat:
+
+    go get github.com/sheik/lumberjack/tcat
+
+To install lumberjack and additional modules, check out and do:
 
     go install ./...
     
