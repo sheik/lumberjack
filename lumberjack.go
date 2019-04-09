@@ -1,4 +1,4 @@
-package main
+package lumberjack
 
 import (
 	"bufio"
@@ -66,7 +66,3 @@ func (logger *LumberjackScanner) Text() string {
 	return logger.text
 }
 
-func main() {
-	logger := NewLogger()
-	logger.log("My first log message", []string{"first", "info", "alert"})
-}

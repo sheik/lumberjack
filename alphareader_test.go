@@ -1,4 +1,4 @@
-package main
+package lumberjack
 
 // alphaReader is borrowed and modified from:
 // https://medium.com/learning-the-go-programming-language/streaming-io-in-go-d93507931185
