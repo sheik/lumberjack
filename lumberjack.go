@@ -19,18 +19,25 @@ func NewLogger(files ...io.Writer) Lumberjack {
 	return Lumberjack{outputFiles: files}
 }
 
+// Log a message with given tags
 func (logger *Lumberjack) Log(message string, tags Tags) {
 	for _, log := range logger.outputFiles {
-		fmt.Fprintf(log, "%s::%s\n", strings.Join(tags, ":"), message)
+		fmt.Fprintf(log, ":%s::%s\n", strings.Join(tags, ":"), message)
 	}
 }
 
+// LumberjackScanner provides a way to open
+// a log file and go through the lines, matching
+// only on specific tags. It is based on the
+// bufio.Scanner type
 type LumberjackScanner struct {
 	scanner *bufio.Scanner
 	text    string
 	tagMap  TagMap
 }
 
+// NewLumberjackScanner returns a new scanner that will
+// search for "tags"
 func NewLumberjackScanner(r io.Reader, tags Tags) LumberjackScanner {
 	s := LumberjackScanner{bufio.NewScanner(r), "", make(map[string]bool)}
 	for _, tag := range tags {
@@ -65,4 +72,3 @@ func (logger *LumberjackScanner) Scan() bool {
 func (logger *LumberjackScanner) Text() string {
 	return logger.text
 }
-
