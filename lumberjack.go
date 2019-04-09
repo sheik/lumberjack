@@ -11,10 +11,14 @@ type Tag string
 type Tags []string
 type TagMap map[string]bool
 
+// Basic logger type, contains a list
+// of destinations
 type Lumberjack struct {
 	outputFiles []io.Writer
 }
 
+// NewLogger takes a list of io.Writers an returns a new
+// logging object that can be used to lo tags
 func NewLogger(files ...io.Writer) Lumberjack {
 	return Lumberjack{outputFiles: files}
 }
@@ -46,6 +50,9 @@ func NewLumberjackScanner(r io.Reader, tags Tags) LumberjackScanner {
 	return s
 }
 
+// Running Scan() will cause the scanner to read
+// from the input until a line matching our tag
+// format is found and filtered out
 func (logger *LumberjackScanner) Scan() bool {
 	for logger.scanner.Scan() {
 		text := logger.scanner.Text()
@@ -69,6 +76,7 @@ func (logger *LumberjackScanner) Scan() bool {
 	return false
 }
 
+// Text() returns the last line found by the scanner
 func (logger *LumberjackScanner) Text() string {
 	return logger.text
 }
