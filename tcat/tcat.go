@@ -25,10 +25,7 @@ func main() {
 		defer file.Close()
 	}
 
-	var ljTags lumberjack.Tags
-	ljTags = strings.Split(*tags, ",")
-
-	scanner := lumberjack.NewLumberjackScanner(file, ljTags)
+	scanner := lumberjack.NewLumberjackScanner(file, strings.Split(*tags, ","))
 	for scanner.Scan() {
 		fmt.Println(scanner.Text())
 	}
