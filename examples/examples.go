@@ -12,7 +12,9 @@ func main() {
 		panic(err)
 	}
 
-	logger := lumberjack.NewLogger(logfile)
+	defer logfile.Close()
+
+	logger := lumberjack.NewLogger(os.Stdout, logfile)
 
 	logger.Log("The network is down", lumberjack.Tags{"network", "debug"})
 }
