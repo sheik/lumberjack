@@ -92,7 +92,7 @@ func ExampleNewLogger_stdout() {
 
 func ExampleNewLogger_file() {
 	filename := "output.log"
-	logfile, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0755)
+	logfile, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0644)
 
 	if err != nil {
 		panic(err)

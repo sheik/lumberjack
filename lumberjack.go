@@ -1,3 +1,13 @@
+// Copyright 2019 Jeff Aigner. All rights reserved.
+// Use of this code is governed by the MIT license
+// found in the LICENSE file
+
+// Package lumberjack is a logger that allows logging
+// and filtering based on tags.
+//
+// It is intended to be used to help with debugging of
+// systems by providing an easy way to get different
+// views of your system log
 package lumberjack
 
 import (
@@ -7,9 +17,7 @@ import (
 	"strings"
 )
 
-type Tag string
-type Tags []string
-type TagMap map[string]bool
+type tagMap map[string]bool
 
 // Basic logger type, contains a list
 // of destinations
@@ -33,11 +41,12 @@ func (logger *Lumberjack) Log(message string, tags ...string) {
 // LumberjackScanner provides a way to open
 // a log file and go through the lines, matching
 // only on specific tags. It is based on the
-// bufio.Scanner type
+// bufio.Scanner type. Use NewLumberjackScanner() to
+// create a new LumberjackScanner object
 type LumberjackScanner struct {
 	scanner *bufio.Scanner
 	text    string
-	tagMap  TagMap
+	tagMap  tagMap
 }
 
 // NewLumberjackScanner returns a new scanner that will
