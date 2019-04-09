@@ -24,7 +24,7 @@ func NewLogger(files ...io.Writer) Lumberjack {
 }
 
 // Log a message with given tags
-func (logger *Lumberjack) Log(message string, tags... string) {
+func (logger *Lumberjack) Log(message string, tags ...string) {
 	for _, log := range logger.outputFiles {
 		fmt.Fprintf(log, ":%s::%s\n", strings.Join(tags, ":"), message)
 	}
@@ -42,7 +42,7 @@ type LumberjackScanner struct {
 
 // NewLumberjackScanner returns a new scanner that will
 // search for "tags"
-func NewLumberjackScanner(r io.Reader, tags... string) LumberjackScanner {
+func NewLumberjackScanner(r io.Reader, tags ...string) LumberjackScanner {
 	s := LumberjackScanner{bufio.NewScanner(r), "", make(map[string]bool)}
 	for _, tag := range tags {
 		s.tagMap[tag] = true

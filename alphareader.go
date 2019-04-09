@@ -46,4 +46,3 @@ func (a *alphaReader) Read(p []byte) (int, error) {
 	copy(p, buf)
 	return n, nil
 }
-

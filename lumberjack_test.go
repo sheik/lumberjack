@@ -20,10 +20,10 @@ func TestLumberjackInit(t *testing.T) {
 
 func TestLumberjackScanner(t *testing.T) {
 	r, err := os.Open("test.log")
-	defer r.Close()
 	if err != nil {
 		t.Error(err)
 	}
+	defer r.Close()
 
 	var output lines
 	scanner := NewLumberjackScanner(r, "first")
@@ -35,10 +35,10 @@ func TestLumberjackScanner(t *testing.T) {
 	}
 
 	r2, err := os.Open("test.log")
-	defer r2.Close()
 	if err != nil {
 		t.Error(err)
 	}
+	defer r2.Close()
 
 	output = lines{}
 	scanner = NewLumberjackScanner(r2, "network")
@@ -67,4 +67,3 @@ func TestLumberjackScannerMultipleTags(t *testing.T) {
 		t.Error("Unexpected output:", output)
 	}
 }
-
