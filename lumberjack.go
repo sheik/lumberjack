@@ -19,7 +19,7 @@ func NewLogger(files ...io.Writer) Lumberjack {
 	return Lumberjack{outputFiles: files}
 }
 
-func (logger *Lumberjack) log(message string, tags Tags) {
+func (logger *Lumberjack) Log(message string, tags Tags) {
 	for _, log := range logger.outputFiles {
 		fmt.Fprintf(log, "%s::%s\n", strings.Join(tags, ":"), message)
 	}

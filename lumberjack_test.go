@@ -10,11 +10,11 @@ type lines []string
 
 func TestLumberjackInit(t *testing.T) {
 	logger := NewLogger()
-	logger.log("My first log message", Tags{"first", "info", "alert"})
+	logger.Log("My first log message", Tags{"first", "info", "alert"})
 
 	logger = NewLogger(os.Stdout)
-	logger.log("My first log message", Tags{"first", "info", "alert"})
-	logger.log("My second log message", Tags{"second", "info", "debug"})
+	logger.Log("My first log message", Tags{"first", "info", "alert"})
+	logger.Log("My second log message", Tags{"second", "info", "debug"})
 }
 
 func TestLumberjackScanner(t *testing.T) {
