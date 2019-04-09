@@ -1,0 +1,7 @@
+first:info:test::my first log
+second:debug:test::my second log
+network:info::I like network cards
+second:debug:test::my third log
+network bogus line
+test::my first log
+network::eth0 is up
