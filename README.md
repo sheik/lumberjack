@@ -4,13 +4,15 @@ Lumberjack is a tag logging library. It allows simple logging configuation which
 for logging of messages with tags. It then provides an interface for reading through a log
 based on tags.
 
-To get tcat:
+To use the lumberjack library in your program:
 
-    go get github.com/sheik/lumberjack/tcat
+    go get github.com/sheik/lumberjack
+    
+After you install, you can run "godoc -http :8080" and browse for lumberjack to get more detailed documentation.
 
-To install lumberjack and additional modules, check out and do:
-
-    go install ./...
+To install the filter program to filter the logs you produce:
+    
+    go get github.com/sheik/lumberjack/filter
     
 Example Code:
     
@@ -47,11 +49,11 @@ Example:
     test::my first log
     network::eth0 is up
     
-    user@host$ cat test.log | tcat -tags "network"
+    user@host$ cat test.log | filter -tags network
     I like network cards
     eth0 is up
     
-    user@host$ tcat -tags network,first test.log 
+    user@host$ filter -tags network,first test.log 
     my first log
     I like network cards
     eth0 is up
@@ -60,4 +62,4 @@ Example:
 
 See LICENSE for licensing information
 
-(C) 2019 Jeff Aigner
+ ©2019 Jeff Aigner

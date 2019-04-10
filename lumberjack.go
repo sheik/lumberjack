@@ -19,11 +19,11 @@
 //		test::my first log
 //		network::eth0 is up
 //
-//		user@host$ cat test.log | tcat -tags network
+//		user@host$ cat test.log | filter -tags network
 //		I like network cards
 //		eth0 is up
 //
-//		user@host$ tcat -tags network,first test.log
+//		user@host$ filter -tags network,first test.log
 //		my first log
 //		I like network cards
 //		eth0 is up
