@@ -46,6 +46,7 @@ type tagMap map[string]bool
 // of destinations
 type Lumberjack struct {
 	outputFiles []io.Writer
+	tags        []string
 }
 
 // NewLogger takes a list of io.Writers an returns a new
@@ -54,28 +55,36 @@ func NewLogger(files ...io.Writer) Lumberjack {
 	return Lumberjack{outputFiles: files}
 }
 
+// Tags takes a list of strings and returns a new logger
+// that will log the tags specified every time
+func (logger Lumberjack) Tags(tags ...string) Lumberjack {
+	logger.tags = append(logger.tags, tags...)
+	return logger
+}
+
 // Log a message with given tags
 func (logger *Lumberjack) Log(message string, tags ...string) {
+	printTags := append(logger.tags, tags...)
 	for _, log := range logger.outputFiles {
-		fmt.Fprintf(log, "%s::%s\n", strings.Join(tags, ":"), message)
+		fmt.Fprintf(log, "%s::%s\n", strings.Join(printTags, ":"), message)
 	}
 }
 
 // LumberjackScanner provides a way to open
 // a log file and go through the lines, matching
 // only on specific tags. It is based on the
-// bufio.Scanner type. Use NewLumberjackScanner() to
+// bufio.Scanner type. Use NewScanner() to
 // create a new LumberjackScanner object
-type LumberjackScanner struct {
+type Scanner struct {
 	scanner *bufio.Scanner
 	text    string
 	tagMap  tagMap
 }
 
-// NewLumberjackScanner returns a new scanner that will
+// NewScanner returns a new scanner that will
 // search for "tags"
-func NewLumberjackScanner(r io.Reader, tags ...string) LumberjackScanner {
-	s := LumberjackScanner{bufio.NewScanner(r), "", make(map[string]bool)}
+func NewScanner(r io.Reader, tags ...string) Scanner {
+	s := Scanner{bufio.NewScanner(r), "", make(map[string]bool)}
 	for _, tag := range tags {
 		s.tagMap[tag] = true
 	}
@@ -85,7 +94,7 @@ func NewLumberjackScanner(r io.Reader, tags ...string) LumberjackScanner {
 // Running Scan() will cause the scanner to read
 // from the input until a line matching our tag
 // format is found and filtered out
-func (logger *LumberjackScanner) Scan() bool {
+func (logger *Scanner) Scan() bool {
 	for logger.scanner.Scan() {
 		text := logger.scanner.Text()
 		parts := strings.Split(text, "::")
@@ -109,6 +118,6 @@ func (logger *LumberjackScanner) Scan() bool {
 }
 
 // Text() returns the last line found by the scanner
-func (logger *LumberjackScanner) Text() string {
+func (logger *Scanner) Text() string {
 	return logger.text
 }

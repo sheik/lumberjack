@@ -22,7 +22,7 @@ func TestLumberjackScanner(t *testing.T) {
 	defer r.Close()
 
 	var output lines
-	scanner := NewLumberjackScanner(r, "first")
+	scanner := NewScanner(r, "first")
 	for scanner.Scan() {
 		output = append(output, scanner.Text())
 	}
@@ -37,7 +37,7 @@ func TestLumberjackScanner(t *testing.T) {
 	defer r2.Close()
 
 	output = lines{}
-	scanner = NewLumberjackScanner(r2, "network")
+	scanner = NewScanner(r2, "network")
 	for scanner.Scan() {
 		output = append(output, scanner.Text())
 	}
@@ -47,7 +47,7 @@ func TestLumberjackScanner(t *testing.T) {
 	}
 }
 
-func TestLumberjackScannerMultipleTags(t *testing.T) {
+func TestScannerMultipleTags(t *testing.T) {
 	r, err := os.Open("test.log")
 	defer r.Close()
 	if err != nil {
@@ -55,7 +55,7 @@ func TestLumberjackScannerMultipleTags(t *testing.T) {
 	}
 
 	var output lines
-	scanner := NewLumberjackScanner(r, "first", "second")
+	scanner := NewScanner(r, "first", "second")
 	for scanner.Scan() {
 		output = append(output, scanner.Text())
 	}
@@ -65,14 +65,14 @@ func TestLumberjackScannerMultipleTags(t *testing.T) {
 }
 
 // see test.log in the source to get matching output
-func ExampleNewLumberjackScanner() {
+func ExampleNewScanner() {
 	file, err := os.Open("test.log")
 	if err != nil {
 		panic(err)
 	}
 	defer file.Close()
 
-	scanner := NewLumberjackScanner(file, "tag1", "tag2")
+	scanner := NewScanner(file, "tag1", "tag2")
 	for scanner.Scan() {
 		fmt.Println(scanner.Text())
 	}
@@ -91,6 +91,13 @@ func ExampleNewLogger_stdout() {
 	// ::Simple log message, with no tags
 	// tag1:tag2::Another message, this time with tags
 	// tag1::Another message, this time with only one tag
+}
+
+func ExampleNewLogger_tags() {
+	logger := NewLogger(os.Stdout).Tags("myApp", "TestFunction")
+	logger.Log("Running")
+	// Output:
+	// myApp:TestFunction::Running
 }
 
 func ExampleNewLogger_file() {

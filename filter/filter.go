@@ -35,7 +35,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	scanner := lumberjack.NewLumberjackScanner(file, strings.Split(*tags, ",")...)
+	scanner := lumberjack.NewScanner(file, strings.Split(*tags, ",")...)
 	for scanner.Scan() {
 		fmt.Println(scanner.Text())
 	}
