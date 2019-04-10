@@ -100,6 +100,47 @@ func ExampleNewLogger_tags() {
 	// myApp:TestFunction::Running
 }
 
+func ExampleNewLogger_stdoutAndFile() {
+	logfile, err := os.OpenFile("output.log", os.O_RDWR|os.O_CREATE, 0644)
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer logfile.Close()
+
+	logfile2, err := os.OpenFile("output2.log", os.O_RDWR|os.O_CREATE, 0644)
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer logfile2.Close()
+
+	logger := NewLogger(logfile, logfile2, os.Stdout)
+
+	logger.Log("Simple test message")
+	logger.Log("Another message, this time with tags", "tag1", "tag2")
+	logger.Log("Another message, this time with only one tag", "tag1")
+
+	// Test code for verifying output
+	f, err := os.Open("output.log")
+	if err != nil {
+		panic(err)
+	}
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
+	}
+	// Output:
+	// ::Simple test message
+	// tag1:tag2::Another message, this time with tags
+	// tag1::Another message, this time with only one tag
+	// ::Simple test message
+	// tag1:tag2::Another message, this time with tags
+	// tag1::Another message, this time with only one tag
+}
+
 func ExampleNewLogger_file() {
 	filename := "output.log"
 	logfile, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0644)

@@ -65,9 +65,35 @@ func (logger Lumberjack) Tags(tags ...string) Lumberjack {
 // Log a message with given tags
 func (logger *Lumberjack) Log(message string, tags ...string) {
 	printTags := append(logger.tags, tags...)
-	for _, log := range logger.outputFiles {
-		fmt.Fprintf(log, "%s::%s\n", strings.Join(printTags, ":"), message)
+	for _, logfile := range logger.outputFiles {
+		//		log.SetPrefix(fmt.Sprintf("%s::", strings.Join(printTags, ":")))
+		//		log.SetOutput(logfile)
+		fmt.Fprintf(logfile, "%s::%s\n", strings.Join(printTags, ":"), message)
+		//		log.Println(message)
 	}
+}
+
+// SafeClose provides a way to close all of the file
+// descriptors passed into the logger
+func (logger *Lumberjack) SafeClose() error {
+	var errors []string
+	for _, log := range logger.outputFiles {
+		// do a type assertion against the WriteClose
+		// interface to check for a Close() method
+		if i, ok := log.(io.WriteCloser); ok {
+			err := i.Close()
+			if err != nil {
+				errors = append(errors, err.Error())
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		outputError := strings.Join(errors, "; ")
+		return fmt.Errorf("%s", outputError)
+	}
+
+	return nil
 }
 
 // LumberjackScanner provides a way to open
