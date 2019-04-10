@@ -1,7 +1,7 @@
 first:info:test::my first log
-second:debug:test::my second log
+second:debug:test:tag2::my second log
 network:info::I like network cards
-second:debug:test::my third log
+second:debug:test:tag1::my third log
 network bogus line
 test::my first log
 network::eth0 is up

@@ -5,6 +5,7 @@
 package lumberjack
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"reflect"
@@ -12,16 +13,6 @@ import (
 )
 
 type lines []string
-
-func TestLumberjackInit(t *testing.T) {
-	logger := NewLogger()
-	logger.Log("My first log message", "first", "info", "alert")
-
-	logger = NewLogger(os.Stdout)
-	logger.Log("My first log message", "first", "info", "alert")
-	logger.Log("My second log message", "second", "info", "debug")
-	logger.Log("Test, no tags")
-}
 
 func TestLumberjackScanner(t *testing.T) {
 	r, err := os.Open("test.log")
@@ -73,6 +64,7 @@ func TestLumberjackScannerMultipleTags(t *testing.T) {
 	}
 }
 
+// see test.log in the source to get matching output
 func ExampleNewLumberjackScanner() {
 	file, err := os.Open("test.log")
 	if err != nil {
@@ -84,6 +76,9 @@ func ExampleNewLumberjackScanner() {
 	for scanner.Scan() {
 		fmt.Println(scanner.Text())
 	}
+	// Output:
+	// my second log
+	// my third log
 }
 
 func ExampleNewLogger_stdout() {
@@ -113,4 +108,18 @@ func ExampleNewLogger_file() {
 	logger.Log("Simple test message")
 	logger.Log("Another message, this time with tags", "tag1", "tag2")
 	logger.Log("Another message, this time with only one tag", "tag1")
+
+	// Test code for verifying output
+	f, err := os.Open("output.log")
+	if err != nil {
+		panic(err)
+	}
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
+	}
+	// Output:
+	// ::Simple test message
+	// tag1:tag2::Another message, this time with tags
+	// tag1::Another message, this time with only one tag
 }
