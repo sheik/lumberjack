@@ -1,3 +1,7 @@
+// Copyright 2019 Jeff Aigner. All rights reserved.
+// Use of this code is governed by the MIT license
+// found in the LICENSE file
+
 package lumberjack
 
 import (
