@@ -9,6 +9,7 @@ To use the lumberjack library in your program:
     go get github.com/sheik/lumberjack
     
 After you install, you can run "godoc -http :8080" and browse for lumberjack to get more detailed documentation.
+Or you can visit the [lumberjack documentation](https://godoc.org/github.com/sheik/lumberjack) online at godoc.org.
 
 To install the filter program to filter the logs you produce:
     
