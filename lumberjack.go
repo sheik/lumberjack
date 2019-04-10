@@ -36,7 +36,6 @@ package lumberjack
 import (
 	"bufio"
 	"fmt"
-	"github.com/fatih/color"
 	"io"
 	"strings"
 )
@@ -58,7 +57,7 @@ func NewLogger(files ...io.Writer) Lumberjack {
 // Log a message with given tags
 func (logger *Lumberjack) Log(message string, tags ...string) {
 	for _, log := range logger.outputFiles {
-		fmt.Fprintf(log, ":%s::%s\n", strings.Join(tags, ":"), message)
+		fmt.Fprintf(log, "%s::%s\n", strings.Join(tags, ":"), message)
 	}
 }
 

@@ -88,6 +88,10 @@ func ExampleNewLogger_stdout() {
 	logger.Log("Simple log message, with no tags")
 	logger.Log("Another message, this time with tags", "tag1", "tag2")
 	logger.Log("Another message, this time with only one tag", "tag1")
+	// Output:
+	// ::Simple log message, with no tags
+	// tag1:tag2::Another message, this time with tags
+	// tag1::Another message, this time with only one tag
 }
 
 func ExampleNewLogger_file() {
