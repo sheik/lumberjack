@@ -2,17 +2,41 @@
 // Use of this code is governed by the MIT license
 // found in the LICENSE file
 
-// Package lumberjack is a logger that allows logging
-// and filtering based on tags.
+// Package lumberjack implements a logger that allows logging
+// and filtering based on tags. It wraps bufio.Scanner to provide
+// an easy interface to load a file and filter based on tags.
+//
+// Included is a program called "filter" which can be used to filter
+// your logs on the command line. an example of using this can be
+// seen below:
+//
+//		user@host$ cat test.log
+//		first:info:test::my first log
+//		second:debug:test::my second log
+//		network:info::I like network cards
+//		second:debug:test::my third log
+//		network bogus line
+//		test::my first log
+//		network::eth0 is up
+//
+//		user@host$ cat test.log | tcat -tags network
+//		I like network cards
+//		eth0 is up
+//
+//		user@host$ tcat -tags network,first test.log
+//		my first log
+//		I like network cards
+//		eth0 is up
 //
 // It is intended to be used to help with debugging of
 // systems by providing an easy way to get different
-// views of your system log
+// views of your system log that are less crufty
 package lumberjack
 
 import (
 	"bufio"
 	"fmt"
+	"github.com/fatih/color"
 	"io"
 	"strings"
 )
